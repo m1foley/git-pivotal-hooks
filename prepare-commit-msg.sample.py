@@ -44,7 +44,11 @@ def load_document(token, filter, project_id):
             'http://www.pivotaltracker.com/services/v3/projects/%s/stories/?filter=%s' % (
                 project_id, urllib2.quote(filter)))
     req.add_header("X-TrackerToken", token)
-    result = urllib2.urlopen(req)
+    try:
+        result = urllib2.urlopen(req)
+    except Exception as e:
+        print "Error retrieving Pivotal Tracker stories:\n", e
+        sys.exit()
     return result
 
 if __name__ == '__main__':
